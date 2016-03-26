@@ -3,11 +3,19 @@ from django.shortcuts import render
 
 # Create your views here.
 from models import Article
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
-    post_list = Article.objects.all()
-    return render(request,'home.html',{"post_list":post_list})
+    posts = Article.objects.all()
+    paginator =  Paginator(posts,3)
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+    return render(request,'home.html',{"post_list":contacts})
     # return render(request,'test.html')
     # return HttpResponse(str(2))
 
