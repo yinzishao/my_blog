@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.conf.global_settings import STATICFILES_FINDERS
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -115,9 +116,14 @@ USE_TZ = True
 #     ('upload',os.path.join(STATIC_ROOT,'upload').replace('\\','/') ),
 # )
 
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'collected_static')
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "common_static"),
-    '/path/to/others/static/',
+    os.path.join(BASE_DIR, "article/static"),
+)
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
